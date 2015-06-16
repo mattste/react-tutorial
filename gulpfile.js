@@ -14,11 +14,14 @@ var path = {
   DEST: 'dist',
   DEST_BUILD: 'dist/build',
   DEST_SRC: 'dist/src',
-  ENTRY_POINT: './src/js/App.js'
+  ENTRY_POINT: './src/js/App.jsx'
 };
 
 gulp.task('copy', function() {
   gulp.src(path.HTML)
+    .pipe(htmlreplace({
+      'js': 'src/' + path.OUT
+    }))
     .pipe(gulp.dest(path.DEST));
 });
 
@@ -43,6 +46,14 @@ gulp.task('watch', function() {
     .pipe(gulp.dest(path.DEST_SRC));
 });
 
+gulp.task('replaceHTML', function() {
+  gulp.src(path.HTML)
+    .pipe(htmlreplace({
+      'js': 'build/' + path.MINIFIED_OUT
+    }))
+    .pipe(gulp.dest(path.DEST));
+});
+
 gulp.task('default', ['copy', 'watch']);
 
 gulp.task('build', function() {
@@ -56,12 +67,6 @@ gulp.task('build', function() {
     .pipe(gulp.dest(path.DEST_BUILD));
 });
 
-gulp.task('replaceHTML', function() {
-  gulp.src(path.HTML)
-    .pipe(htmlreplace({
-      'js': 'build/' + path.MINIFIED_OUT
-    }))
-    .pipe(gulp.dest(path.DEST));
-});
+
 
 gulp.task('production', ['replaceHTML', 'build']);
