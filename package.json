@@ -20,6 +20,7 @@
     "watchify": "^3.2.2"
   },
   "dependencies": {
+    "flux": "^2.0.3",
     "react": "^0.13.3"
   }
 }
